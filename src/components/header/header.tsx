@@ -6,7 +6,7 @@ import { paths } from "@/config/paths";
 export const Header = () => {
   return (
     <header className="header">
-      <Link to={paths.app.population_graph.getHref()} className="app-name">
+      <Link to={paths.home.path} className="app-name">
         popu
       </Link>
       <nav>
