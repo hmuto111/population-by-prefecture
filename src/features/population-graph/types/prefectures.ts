@@ -1,17 +1,25 @@
-export type Prefecture = {
-  code: number;
-  name: string;
-  ja: string;
-  isSelect: boolean;
-};
-
-export type Region = {
-  code: number;
-  name: string;
-  ja: string;
-  pref: Prefecture[];
-};
-
 export type RegionData = {
-  region: Region[];
+  prefCode: number;
+  prefName: string;
+  isSelected: boolean;
+};
+
+export type PopulationPerYear = {
+  year: number;
+  value: number;
+};
+
+export type PopulationCategory = {
+  label: string;
+  data: PopulationPerYear[];
+};
+
+export type PrefecturePopulation = {
+  prefCode: number;
+  data: PopulationCategory[];
+};
+
+export type PopulationData = {
+  boundryYear: number;
+  data: PrefecturePopulation[];
 };

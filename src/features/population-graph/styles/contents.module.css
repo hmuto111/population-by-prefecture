@@ -14,12 +14,23 @@
 
 .prefectures_box {
   width: 100%;
+  max-height: 150px;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  gap: 5%;
+  overflow-y: auto;
 }
 
 .graph {
   height: 50%;
   width: 90%;
   padding: 1%;
+}
+
+input {
+  display: inline-block;
+  margin-right: 8px;
+  transform: scale(1.5);
+  accent-color: rgb(255, 167, 182);
 }
