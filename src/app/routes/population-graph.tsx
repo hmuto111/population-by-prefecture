@@ -7,6 +7,7 @@ import { TransitionGraph } from "@/features/population-graph/components/transiti
 import {
   PopulationData,
   RegionData,
+  Label,
 } from "@/features/population-graph/types/prefectures";
 import styles from "@/features/population-graph/styles/contents.module.css";
 
@@ -15,15 +16,20 @@ import {
   getPopulationData,
 } from "@/features/population-graph/api/get-prefecture-data";
 
+import { PrefectureTab } from "@/features/population-graph/components/prefecture-tab";
+
 const PopulationGraph = () => {
   const [prefectures, setPrefectures] = useState<RegionData[] | null>(null);
   const [populationData, setPopulationData] = useState<PopulationData | null>(
     null
   );
+  const [label, setLabel] = useState<Label>("総人口");
   const [apiKey, setApiKey] = useState<string>("");
 
   const handleGetPrefectures = async () => {
     const data = await getPrefectures(apiKey);
+    console.log(data);
+
     if (data && data.result) {
       const initialPrefectures: RegionData[] = data.result.map(
         (pref: RegionData) => ({
@@ -46,9 +52,11 @@ const PopulationGraph = () => {
       />
       <button onClick={handleGetPrefectures}>Get Prefectures</button>
       <Prefectures prefectures={prefectures} setPrefectures={setPrefectures} />
+      <PrefectureTab setLabel={setLabel} />
       <TransitionGraph
         prefectures={prefectures}
         populationData={populationData}
+        label={label}
       />
     </PopulationLayout>
   );

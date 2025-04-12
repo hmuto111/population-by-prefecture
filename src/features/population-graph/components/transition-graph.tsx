@@ -9,9 +9,14 @@ import { RegionData, PopulationData } from "../types/prefectures";
 type Props = {
   prefectures: RegionData[] | null;
   populationData: PopulationData | null;
+  label: "総人口" | "年少人口" | "生産年齢人口" | "老年人口";
 };
 
-export const TransitionGraph = ({ prefectures, populationData }: Props) => {
+export const TransitionGraph = ({
+  prefectures,
+  populationData,
+  label,
+}: Props) => {
   const [options, setOptions] = useState<Highcharts.Options>({
     chart: {
       height: "100%",
@@ -75,13 +80,12 @@ export const TransitionGraph = ({ prefectures, populationData }: Props) => {
     const series: Highcharts.SeriesOptionsType[] =
       (selectedPopulationData
         ?.map((pref) => {
-          console.log(pref);
-          const key = 0;
+          const key = { 総人口: 0, 年少人口: 1, 生産年齢人口: 2, 老年人口: 3 };
 
           return {
             type: "line",
             name: pref.prefName,
-            data: pref[key].data
+            data: pref[key[label]].data
               .slice(0, years.length)
               .map((item) => item.value),
           };
@@ -97,7 +101,7 @@ export const TransitionGraph = ({ prefectures, populationData }: Props) => {
       },
       series: series,
     }));
-  }, [prefectures, populationData]);
+  }, [prefectures, populationData, label]);
 
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
 

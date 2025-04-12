@@ -47,5 +47,10 @@ label input[type="checkbox"] {
   display: inline-block;
   margin-right: 8px;
   transform: scale(1.5);
-  accent-color: rgb(255, 167, 182);
+  accent-color: #fca3a3;
+}
+
+.label input[type="checkbox"].active {
+  background-color: #fff4f4;
+  font-weight: bold;
 }

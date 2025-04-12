@@ -24,3 +24,5 @@ export type PopulationData = {
   boundaryYear: number;
   data: PrefecturePopulation[];
 };
+
+export type Label = "総人口" | "年少人口" | "生産年齢人口" | "老年人口";
