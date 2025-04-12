@@ -28,7 +28,22 @@
   padding: 1%;
 }
 
-input {
+label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 2px;
+  margin: 2px 2px;
+  cursor: pointer;
+  width: 100px;
+  border-radius: 5px;
+}
+
+label:hover {
+  background-color: #fff4f4;
+}
+
+label input[type="checkbox"] {
   display: inline-block;
   margin-right: 8px;
   transform: scale(1.5);

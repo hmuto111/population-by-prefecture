@@ -14,7 +14,7 @@ type Props = {
 export const TransitionGraph = ({ prefectures, populationData }: Props) => {
   const [options, setOptions] = useState<Highcharts.Options>({
     chart: {
-      height: "150%", // 例：グラフの高さを 500 ピクセルに設定
+      height: "100%",
     },
     title: {
       text: "都道府県別 総人口推移",
@@ -27,12 +27,22 @@ export const TransitionGraph = ({ prefectures, populationData }: Props) => {
     yAxis: {
       labels: {
         formatter: function () {
-          return Highcharts.numberFormat(Number(this.value), 0, ".", ",");
+          return Highcharts.numberFormat(
+            Number(this.value) / 10000,
+            0,
+            ".",
+            ","
+          );
         },
       },
       title: {
-        text: "人口数",
+        text: "人口数 (万人)",
       },
+    },
+    legend: {
+      align: "right",
+      verticalAlign: "middle",
+      layout: "vertical",
     },
     series: [],
   });
