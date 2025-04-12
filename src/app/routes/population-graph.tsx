@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { PopulationLayout } from "@/components/layout/population-layout";
 import { Prefectures } from "@/features/population-graph/components/prefectures";
@@ -32,57 +32,65 @@ const PopulationGraph = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log("成功:", data);
-        setPrefectures(
-          data.result.map((pref: RegionData) => ({
+        const initialPrefectures: RegionData[] = data.result.map(
+          (pref: RegionData) => ({
             ...pref,
             isSelected: false,
-          }))
+          })
         );
+        setPrefectures(initialPrefectures);
+        getPopulationData(initialPrefectures);
       })
       .catch((error) => {
         console.error("エラー:", error);
       });
   };
 
-  useEffect(() => {
-    const getPopulationData = async () => {
-      const tempPopulationData: PopulationData | null = {
-        boundryYear: 0,
-        data: [],
-      };
-      prefectures?.forEach(async (pref) => {
-        await fetch(
-          url + "population/composition/perYear?prefCode=" + pref.prefCode,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "x-api-key": apiKey,
-            },
-          }
-        )
-          .then((res) => res.json())
-          .then((data) => {
-            console.log("成功:", data);
-            tempPopulationData.boundryYear = data.result.boundryYear;
-            tempPopulationData.data =
-              tempPopulationData === null
-                ? [{ prefCode: pref.prefCode, ...data.result.data }]
-                : [
-                    ...tempPopulationData.data,
-                    { prefCode: pref.prefCode, ...data.result.data },
-                  ];
-          })
-          .catch((error) => {
-            console.error("エラー:", error);
-          });
-      });
-
-      setPopulationData(tempPopulationData);
+  const getPopulationData = async (prefectures: RegionData[]) => {
+    const tempPopulationData: PopulationData | null = {
+      boundaryYear: 0,
+      data: [],
     };
+    prefectures?.forEach(async (pref) => {
+      await fetch(
+        url + "population/composition/perYear?prefCode=" + pref.prefCode,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": apiKey,
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("成功:", data);
+          tempPopulationData.boundaryYear = data.result.boundaryYear;
+          tempPopulationData.data =
+            tempPopulationData === null
+              ? [
+                  {
+                    prefCode: pref.prefCode,
+                    prefName: pref.prefName,
+                    ...data.result.data,
+                  },
+                ]
+              : [
+                  ...tempPopulationData.data,
+                  {
+                    prefCode: pref.prefCode,
+                    prefName: pref.prefName,
+                    ...data.result.data,
+                  },
+                ];
+        })
+        .catch((error) => {
+          console.error("エラー:", error);
+        });
+    });
 
-    getPopulationData();
-  }, [prefectures]);
+    setPopulationData(tempPopulationData);
+  };
 
   return (
     <PopulationLayout>

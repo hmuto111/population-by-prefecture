@@ -16,10 +16,11 @@ export type PopulationCategory = {
 
 export type PrefecturePopulation = {
   prefCode: number;
-  data: PopulationCategory[];
+  prefName: string;
+  [key: number]: PopulationCategory;
 };
 
 export type PopulationData = {
-  boundryYear: number;
+  boundaryYear: number;
   data: PrefecturePopulation[];
 };

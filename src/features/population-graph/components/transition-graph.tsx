@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
@@ -12,28 +12,10 @@ type Props = {
 };
 
 export const TransitionGraph = ({ prefectures, populationData }: Props) => {
-  const selectedPref: RegionData[] | null = prefectures
-    ? prefectures.filter((pref) => pref.isSelected === true)
-    : null;
-
-  const series: Highcharts.SeriesOptionsType[] =
-    populationData?.data?.flatMap((pref): Highcharts.SeriesOptionsType[] => {
-      const sp = selectedPref?.find((sp) => sp.prefCode === pref.prefCode);
-
-      if (!sp) {
-        return [];
-      }
-
-      return [
-        {
-          type: "line",
-          name: sp.prefName,
-          data: [100], //pref.data.find((c) => c.label === "総人口"),
-        },
-      ];
-    }) ?? [];
-
-  const options: Highcharts.Options = {
+  const [options, setOptions] = useState<Highcharts.Options>({
+    chart: {
+      height: "150%", // 例：グラフの高さを 500 ピクセルに設定
+    },
     title: {
       text: "都道府県別 総人口推移",
     },
@@ -43,12 +25,69 @@ export const TransitionGraph = ({ prefectures, populationData }: Props) => {
       },
     },
     yAxis: {
+      labels: {
+        formatter: function () {
+          return Highcharts.numberFormat(Number(this.value), 0, ".", ",");
+        },
+      },
       title: {
         text: "人口数",
       },
     },
-    series: series,
-  };
+    series: [],
+  });
+
+  useEffect(() => {
+    if (!prefectures || !populationData?.data) {
+      setOptions((prevOptions) => ({
+        ...prevOptions,
+        series: [],
+      }));
+      return;
+    }
+
+    const selectedPref = prefectures
+      ? prefectures.filter((pref) => pref.isSelected === true)
+      : null;
+
+    const selectedPopulationData = populationData?.data.filter((pref) =>
+      selectedPref?.some(
+        (selectedPref) => selectedPref.prefCode === pref.prefCode
+      )
+    );
+
+    const years: string[] = selectedPopulationData?.[0]?.[0]?.data
+      ?.map((item) =>
+        String(item.year <= populationData.boundaryYear && item.year)
+      )
+      ?.filter((item) => item !== "false");
+
+    const series: Highcharts.SeriesOptionsType[] =
+      (selectedPopulationData
+        ?.map((pref) => {
+          console.log(pref);
+          const key = 0;
+
+          return {
+            type: "line",
+            name: pref.prefName,
+            data: pref[key].data
+              .slice(0, years.length)
+              .map((item) => item.value),
+          };
+        })
+        .filter((item) => item !== null) as Highcharts.SeriesOptionsType[]) ??
+      [];
+
+    setOptions((prevOptions) => ({
+      ...prevOptions,
+      xAxis: {
+        ...prevOptions.xAxis,
+        categories: years,
+      },
+      series: series,
+    }));
+  }, [prefectures, populationData]);
 
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
 
