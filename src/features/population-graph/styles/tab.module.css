@@ -1,0 +1,30 @@
+.tabs {
+  max-width: 90%;
+}
+
+.tab_buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.tab_buttons button {
+  max-width: 120px;
+  padding: 10px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #fff3f3;
+  color: #565656;
+  cursor: pointer;
+  text-wrap: nowrap;
+  font-size: clamp(0.7rem, 1.5vw, 1rem);
+}
+
+.tab_buttons button:hover {
+  background-color: #ffdada;
+}
+
+.tab_buttons button.active {
+  background-color: #ffdada;
+  font-weight: bold;
+}

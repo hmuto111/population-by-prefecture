@@ -2,26 +2,22 @@
   display: flex;
   position: relative;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   width: 100%;
-  min-height: 80vh;
+  height: 100%;
   text-align: center;
-}
-
-.container h1 {
-  font-size: clamp(1.5rem, 5vw, 3rem);
-  white-space: nowrap;
 }
 
 .box {
   background-color: #fff;
-  padding: 3%;
+  padding: 1%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  height: 50%;
-  width: 70%;
+  height: auto;
+  width: 90%;
+  margin: 2%;
+  gap: 2rem;
 }
