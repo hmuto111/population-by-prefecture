@@ -14,7 +14,6 @@ export const getPrefectures = async (apiKey: string) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log("成功:", data);
       return data;
     })
     .catch((error) => {
@@ -47,7 +46,6 @@ export const getPopulationData = async (
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log("成功:", data);
         tempPopulationData.boundaryYear = data.result.boundaryYear;
         tempPopulationData.data =
           tempPopulationData === null

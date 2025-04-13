@@ -30,7 +30,6 @@ const PopulationGraph = () => {
 
   const handleGetPrefectures = async () => {
     const data = await getPrefectures(apiKey);
-    console.log(data);
 
     if (data && data.result) {
       const initialPrefectures: RegionData[] = data.result.map(
