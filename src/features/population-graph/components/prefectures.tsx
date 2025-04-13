@@ -48,9 +48,7 @@ export const Prefectures = ({
             value={region}
             onChange={(e) => setRegion(e.target.value as RegionKey | "all")}
           >
-            <option value={"all"} selected>
-              -
-            </option>
+            <option value={"all"}>-</option>
             <option value={"北海道"}>北海道</option>
             <option value={"東北"}>東北</option>
             <option value={"関東"}>関東</option>
@@ -75,7 +73,7 @@ export const Prefectures = ({
                 <label key={pref.prefCode}>
                   <input
                     type="checkbox"
-                    onClick={() => handleCheck(pref.prefName)}
+                    onChange={() => handleCheck(pref.prefName)}
                     checked={pref.isSelected}
                   />
                   {pref.prefName}
@@ -86,7 +84,7 @@ export const Prefectures = ({
                 <label key={pref.prefCode}>
                   <input
                     type="checkbox"
-                    onClick={() => handleCheck(pref.prefName)}
+                    onChange={() => handleCheck(pref.prefName)}
                     checked={pref.isSelected}
                   />
                   {pref.prefName}
