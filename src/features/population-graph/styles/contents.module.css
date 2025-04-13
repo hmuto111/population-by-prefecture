@@ -60,14 +60,21 @@
   font-weight: bold;
 }
 
-.select_region {
+.option_wrap {
   width: 40%;
   margin-bottom: 5px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 5%;
+  gap: 50%;
+}
+
+.select_region {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 3%;
 }
 
 .select_region label {

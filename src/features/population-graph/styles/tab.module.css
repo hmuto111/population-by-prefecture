@@ -1,5 +1,5 @@
 .tabs {
-  width: 90%;
+  max-width: 90%;
 }
 
 .tabButtons {
@@ -8,7 +8,7 @@
 }
 
 .tabButtons button {
-  width: 7rem;
+  width: 25%;
   padding: 10px 15px;
   margin: 1rem;
   border: none;
@@ -16,6 +16,7 @@
   background-color: #fff3f3;
   color: #565656;
   cursor: pointer;
+  text-wrap: nowrap;
 }
 
 .tabButtons button:hover {

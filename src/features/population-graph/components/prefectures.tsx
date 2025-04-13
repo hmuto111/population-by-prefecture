@@ -20,33 +20,51 @@ export const Prefectures = ({
       return;
     }
 
-    const newRegions = prefectures.map((pref: RegionData) =>
+    const newPrefectures = prefectures.map((pref: RegionData) =>
       pref.prefName === name ? { ...pref, isSelected: !pref.isSelected } : pref
     );
-    setPrefectures(newRegions);
+    setPrefectures(newPrefectures);
+  };
+
+  const handleReset = () => {
+    if (!prefectures) {
+      return;
+    }
+
+    const resetPrefectures = prefectures.map((pref: RegionData) => ({
+      ...pref,
+      isSelected: false,
+    }));
+    setPrefectures(resetPrefectures);
   };
 
   return (
     <div className={styles.prefectures_container}>
       <h4>都道府県選択 ※複数可</h4>
-      <div className={styles.select_region}>
-        <label>地方で絞り込む</label>
-        <select
-          value={region}
-          onChange={(e) => setRegion(e.target.value as RegionKey | "all")}
-        >
-          <option value={"all"} selected>
-            -
-          </option>
-          <option value={"北海道"}>北海道</option>
-          <option value={"東北"}>東北</option>
-          <option value={"関東"}>関東</option>
-          <option value={"中部"}>中部</option>
-          <option value={"近畿"}>近畿</option>
-          <option value={"中国"}>中国</option>
-          <option value={"四国"}>四国</option>
-          <option value={"九州"}>九州</option>
-        </select>
+      <div className={styles.option_wrap}>
+        <div className={styles.select_region}>
+          <label>地方で絞り込む</label>
+          <select
+            value={region}
+            onChange={(e) => setRegion(e.target.value as RegionKey | "all")}
+          >
+            <option value={"all"} selected>
+              -
+            </option>
+            <option value={"北海道"}>北海道</option>
+            <option value={"東北"}>東北</option>
+            <option value={"関東"}>関東</option>
+            <option value={"中部"}>中部</option>
+            <option value={"近畿"}>近畿</option>
+            <option value={"中国"}>中国</option>
+            <option value={"四国"}>四国</option>
+            <option value={"九州"}>九州</option>
+          </select>
+        </div>
+
+        <button className={styles.reset} onClick={handleReset}>
+          選択をリセット
+        </button>
       </div>
 
       <div className={styles.prefectures_box}>
