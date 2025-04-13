@@ -8,6 +8,7 @@ import {
   PopulationData,
   RegionData,
   Label,
+  RegionKey,
 } from "@/features/population-graph/types/prefectures";
 import styles from "@/features/population-graph/styles/contents.module.css";
 
@@ -24,6 +25,7 @@ const PopulationGraph = () => {
     null
   );
   const [label, setLabel] = useState<Label>("総人口");
+  const [region, setRegion] = useState<RegionKey | "all">("all");
   const [apiKey, setApiKey] = useState<string>("");
 
   const handleGetPrefectures = async () => {
@@ -51,7 +53,12 @@ const PopulationGraph = () => {
         onChange={(e) => setApiKey(e.target.value)}
       />
       <button onClick={handleGetPrefectures}>Get Prefectures</button>
-      <Prefectures prefectures={prefectures} setPrefectures={setPrefectures} />
+      <Prefectures
+        prefectures={prefectures}
+        setPrefectures={setPrefectures}
+        region={region}
+        setRegion={setRegion}
+      />
       <PrefectureTab setLabel={setLabel} />
       <TransitionGraph
         prefectures={prefectures}

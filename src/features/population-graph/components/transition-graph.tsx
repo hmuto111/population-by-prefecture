@@ -22,7 +22,7 @@ export const TransitionGraph = ({
       height: "100%",
     },
     title: {
-      text: "都道府県別 総人口推移",
+      text: "都道府県別 人口推移",
     },
     xAxis: {
       title: {
