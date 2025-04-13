@@ -25,7 +25,7 @@ export const PrefectureTab = ({ setLabel }: Props) => {
 
   return (
     <div className={styles.tabs}>
-      <div className={styles.tabButtons}>
+      <div className={styles.tab_buttons}>
         {tabs.map((tab) => (
           <button
             key={tab.id}

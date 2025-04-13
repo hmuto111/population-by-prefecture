@@ -52,11 +52,11 @@
   display: inline-block;
   margin-right: 8px;
   transform: scale(1.5);
-  accent-color: #fca3a3;
+  accent-color: #ffb4b4;
 }
 
-.prefectures_box label input[type="checkbox"].active {
-  background-color: #fff4f4;
+.prefectures_box label:has(input[type="checkbox"]:checked) {
+  background-color: #ffeded;
   font-weight: bold;
 }
 
@@ -67,16 +67,20 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 50%;
 }
 
 .select_region {
-  width: 100%;
+  width: 80%;
   display: flex;
   flex-direction: row;
-  gap: 3%;
+  margin-right: 5rem;
 }
 
 .select_region label {
+  text-wrap: nowrap;
+}
+
+.reset {
+  width: 120px;
   text-wrap: nowrap;
 }
