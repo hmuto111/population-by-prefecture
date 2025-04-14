@@ -33,17 +33,14 @@ export const getPopulationData = async (
     boundaryYear: 0,
     data: [],
   };
-  prefectures?.forEach(async (pref) => {
-    await fetch(
-      url + "population/composition/perYear?prefCode=" + pref.prefCode,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": apiKey,
-        },
-      }
-    )
+  prefectures?.forEach((pref) => {
+    fetch(url + "population/composition/perYear?prefCode=" + pref.prefCode, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         tempPopulationData.boundaryYear = data.result.boundaryYear;
