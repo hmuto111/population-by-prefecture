@@ -6,7 +6,7 @@ type Props = {
   setLabel: (label: Label) => void;
 };
 
-export const PrefectureTab = ({ setLabel }: Props) => {
+export const PopulationCompositionTab = ({ setLabel }: Props) => {
   const tabs: {
     id: number;
     label: Label;

@@ -17,7 +17,7 @@ import {
   getPopulationData,
 } from "@/features/population-graph/api/get-prefecture-data";
 
-import { PrefectureTab } from "@/features/population-graph/components/prefecture-tab";
+import { PopulationCompositionTab } from "@/features/population-graph/components/population-composition-tab";
 
 const PopulationGraph = () => {
   const [prefectures, setPrefectures] = useState<RegionData[] | null>(null);
@@ -58,7 +58,7 @@ const PopulationGraph = () => {
         region={region}
         setRegion={setRegion}
       />
-      <PrefectureTab setLabel={setLabel} />
+      <PopulationCompositionTab setLabel={setLabel} />
       <TransitionGraph
         prefectures={prefectures}
         populationData={populationData}
