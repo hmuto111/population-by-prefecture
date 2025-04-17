@@ -44,7 +44,7 @@ describe("test: getPrefectures", () => {
   });
 
   it("APIリクエストが失敗した場合、エラーログを出力して空の結果を返す", async () => {
-    const mockError = "APIエラー発生";
+    const mockError = "APIエラー発生 : getPrefecture";
 
     (global.fetch as jest.Mock).mockRejectedValueOnce(mockError);
     const consoleSpy = jest.spyOn(console, "error");
@@ -75,11 +75,11 @@ describe("test: getPopulationData", () => {
 
   it("都道府県データが渡された場合、各人口構成データを取得してsetPopulationDataを呼び出す", async () => {
     const mockResponseHokkaido = {
-      boundaryYear: dummyPopulationData.boundryYear,
+      boundaryYear: dummyPopulationData.boundaryYear,
       data: dummyPopulationData.data[0],
     };
     const mockResponseTokyo = {
-      boundaryYear: dummyPopulationData.boundryYear,
+      boundaryYear: dummyPopulationData.boundaryYear,
       data: dummyPopulationData.data[1],
     };
 
@@ -126,12 +126,18 @@ describe("test: getPopulationData", () => {
         {
           prefCode: 1,
           prefName: "北海道",
-          data: mockResponseHokkaido.data,
+          "0": mockResponseHokkaido.data[0],
+          "1": mockResponseHokkaido.data[1],
+          "2": mockResponseHokkaido.data[2],
+          "3": mockResponseHokkaido.data[3],
         },
         {
           prefCode: 13,
           prefName: "東京都",
-          data: mockResponseTokyo.data,
+          "0": mockResponseTokyo.data[0],
+          "1": mockResponseTokyo.data[1],
+          "2": mockResponseTokyo.data[2],
+          "3": mockResponseTokyo.data[3],
         },
       ],
     });
@@ -139,14 +145,22 @@ describe("test: getPopulationData", () => {
 
   it("APIリクエストが失敗した場合でも、エラーログを出力して処理を継続する", async () => {
     const mockResponseHokkaido = {
-      boundaryYear: dummyPopulationData.boundryYear,
-      data: dummyPopulationData.data[0],
+      boundaryYear: dummyPopulationData.boundaryYear,
+      data: {
+        "0": dummyPopulationData.data[0]["0"],
+        "1": dummyPopulationData.data[0]["1"],
+        "2": dummyPopulationData.data[0]["2"],
+        "3": dummyPopulationData.data[0]["3"],
+      },
     };
-    const mockError = "APIエラー発生";
+    const mockError = "APIエラー発生 : getPopulationData";
     (global.fetch as jest.Mock)
       .mockResolvedValueOnce({
         message: null,
-        json: jest.fn().mockResolvedValueOnce(mockResponseHokkaido),
+        json: jest.fn().mockResolvedValueOnce({
+          message: null,
+          result: mockResponseHokkaido,
+        }),
       })
       .mockRejectedValueOnce(mockError);
     const consoleSpy = jest.spyOn(console, "error");
@@ -154,21 +168,26 @@ describe("test: getPopulationData", () => {
     await getPopulationData(apiKey, mockPrefectures, mockSetPopulationData);
 
     expect(fetch).toHaveBeenCalledTimes(2);
-    expect(consoleSpy).toHaveBeenCalledWith("エラー:", mockError);
-    expect(mockSetPopulationData).toHaveBeenCalledWith(
-      expect.objectContaining({
-        data: expect.arrayContaining([
-          expect.objectContaining(dummyPopulationData.data[0]),
-        ]),
-      })
+
+    expect(mockSetPopulationData).toHaveBeenCalledWith({
+      boundaryYear: dummyPopulationData.boundaryYear,
+      data: [dummyPopulationData.data[0]],
+    });
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      `都道府県コード ${mockPrefectures[1].prefCode} のデータ取得でエラー:`,
+      mockError
     );
 
     consoleSpy.mockRestore();
   });
 
-  it("都道府県データが空の場合、setPopulationData は呼び出されない", async () => {
+  it("都道府県データが空の場合、空のデータが返される", async () => {
     await getPopulationData(apiKey, [], mockSetPopulationData);
     expect(fetch).not.toHaveBeenCalled();
-    expect(mockSetPopulationData).not.toHaveBeenCalled();
+    expect(mockSetPopulationData).toHaveBeenCalledWith({
+      boundaryYear: 0,
+      data: [],
+    });
   });
 });

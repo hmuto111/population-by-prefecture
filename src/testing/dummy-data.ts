@@ -4,7 +4,7 @@ export const dummyPrefectures = [
 ];
 
 export const dummyPopulationData = {
-  boundryYear: 2020,
+  boundaryYear: 2020,
   data: [
     {
       prefCode: 1,
