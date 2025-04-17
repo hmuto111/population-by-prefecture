@@ -21,6 +21,9 @@ export const TransitionGraph = ({
     chart: {
       height: "100%",
     },
+    accessibility: {
+      enabled: false,
+    },
     title: {
       text: "都道府県別 人口推移",
     },

@@ -5,16 +5,14 @@ import AppRoot from "./routes/root";
 
 import { paths } from "@/config/paths";
 
-const convert = async (path: string) => {
-  const module = await import(path);
-  return { Component: module.default };
-};
-
 const createAppRouter = () =>
   createBrowserRouter([
     {
       path: paths.home.path,
-      lazy: () => convert("./routes/home"),
+      lazy: async () => {
+        const module = await import("./routes/home"); // Vite can analyze this static path
+        return { Component: module.default };
+      },
       hydrateFallbackElement: <div>spinner</div>,
     },
     {
@@ -24,7 +22,10 @@ const createAppRouter = () =>
       children: [
         {
           path: paths.app.population_graph.path,
-          lazy: () => convert("./routes/population-graph"),
+          lazy: async () => {
+            const module = await import("./routes/population-graph"); // Vite can analyze this too
+            return { Component: module.default };
+          },
         },
       ],
     },
