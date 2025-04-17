@@ -49,7 +49,7 @@ src
 
 ### 前提条件
 
-- Node.js (v23.x 以上推奨 ※開発時の環境が v23.11.0 のため)
+- Node.js (v20.x 以上推奨)
 - pnpm
 - API キー(対象のページにて入力)
   - [https://yumemi-frontend-engineer-codecheck-api.vercel.app/api-doc](https://yumemi-frontend-engineer-codecheck-api.vercel.app/api-doc)から API キーを取得してください。
